@@ -1,6 +1,5 @@
 #include "Inf_TWASRPRO.h"
 
-
 void TW_ASRPRO_Init(void) {
     MX_USART2_UART_Init();
 }
