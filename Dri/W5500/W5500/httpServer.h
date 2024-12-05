@@ -104,9 +104,6 @@ uint8_t display_reg_webContent_list(void);
 void httpServer_time_handler(void);
 uint32_t get_httpServer_timecount(void);
 
-
-// extern void user_handle_function(uint8_t *url);
-
 #ifdef __cplusplus
 }
 #endif

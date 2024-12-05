@@ -220,6 +220,7 @@ uint8_t* get_http_param_value(char* uri, char* param_name)
     uri[content_len] = 0;
     /***************/
 
+    // if((name = (uint8_t *)strstr(uri, param_name)))
     if ((name = (uint8_t*)strstr(uri, param_name)) != NULL)
     {
         name += strlen(param_name) + 1;

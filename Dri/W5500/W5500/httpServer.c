@@ -166,7 +166,7 @@ void httpServer_run(uint8_t seqnum)
 #endif
 						// HTTP 'response' handler; includes send_http_response_header / body function
 						http_process_handler(s, parsed_http_request);
-						// user_handle_function(parsed_http_request->URI);
+
 						gettime = get_httpServer_timecount();
 						// Check the TX socket buffer for End of HTTP response sends
 						while(getSn_TX_FSR(s) != (getSn_TxMAX(s)))

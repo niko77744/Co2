@@ -30,6 +30,9 @@
 #include "u8g2.h"
 #include "oled.h"
 #include "U8g2_text.h"
+#include "Inf_TWASRPRO.h"
+#include "Inf_W5500.h"
+#include "Inf_Key.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,15 +104,26 @@ int main(void)
     MX_I2C1_Init();
     /* USER CODE BEGIN 2 */
     printf("hello");
-    u8g2_t u8g2;
-    u8g2Init(&u8g2);
-    testDrawXBM(&u8g2);
+    Inf_Key_Init();
+
+    // u8g2_t u8g2;
+    // u8g2Init(&u8g2);
+    // testDrawXBM(&u8g2);
+    // Inf_W5500_Init();
+
+
 
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
     while (1) {
+        printf("value = %d\n", key_value);
+        HAL_Delay(100);
+
+
+        // TW_ASRPRO_SendData("123", 3);
+        // HAL_Delay(5000);
 
         // u8g2_DrawCircle(&u8g2, 64, 32, 30, U8G2_DRAW_ALL); //»­¿ÕÐÄÔ²
         // u8g2_SendBuffer(&u8g2);
@@ -200,7 +214,7 @@ void SystemClock_Config(void)
 void Error_Handler(void)
 {
     /* USER CODE BEGIN Error_Handler_Debug */
-      /* User can add his own implementation to report the HAL error return state */
+          /* User can add his own implementation to report the HAL error return state */
     __disable_irq();
     while (1)
     {
@@ -219,8 +233,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t* file, uint32_t line)
 {
     /* USER CODE BEGIN 6 */
-      /* User can add his own implementation to report the file name and line number,
-         ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-         /* USER CODE END 6 */
+          /* User can add his own implementation to report the file name and line number,
+             ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+             /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
