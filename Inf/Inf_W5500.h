@@ -12,5 +12,9 @@
 #include "httpParser.h"
 
 void Inf_W5500_Init(void);
+uint8_t Inf_W5500_StartTcpClient(void);
+void Inf_W5500_StartTcpServer(void);
+void Inf_W5500_SendTcpData(uint8_t data[], uint16_t dataLen);
+void Inf_W5500_RecvAndSend(void);
 
 #endif /* __INF_W5500_H__ */

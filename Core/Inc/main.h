@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED2_Pin GPIO_PIN_1
 #define LED2_GPIO_Port GPIOA
+#define TR_Pin GPIO_PIN_1
+#define TR_GPIO_Port GPIOB
 #define TW_MUTE_Pin GPIO_PIN_12
 #define TW_MUTE_GPIO_Port GPIOB
 #define W5500_CS_Pin GPIO_PIN_12
