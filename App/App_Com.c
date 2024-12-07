@@ -8,11 +8,18 @@
 void App_Com_Init(void) {
     Inf_W5500_Init();
     printf("初始化以太网成功...\r\n");
-    while (Inf_W5500_StartTcpClient() == 0) {
+    int8_t max_count = 5;
+    while (Inf_W5500_StartTcpClient() == 0 && max_count--) {
         HAL_Delay(1000);
     }
-    printf("开启客户端成功....\r\n");
-    Inf_W5500_SendTcpData("hello world\r\n", 13);
+    if (max_count > 0) {
+        printf("以太网连接成功....\r\n");
+    }
+    else {
+        printf("以太网连接失败....\r\n");
+    }
+
+    Inf_W5500_SendTcpData("connect successful\r\n", 13);
 
     Inf_RS485_Init();
     TW_ASRPRO_Init();
