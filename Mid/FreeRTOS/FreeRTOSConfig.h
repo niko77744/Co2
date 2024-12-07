@@ -95,5 +95,13 @@ NVIC value of 255. */
 /* 兼容新老版本 */
 #define configMAX_API_CALL_INTERRUPT_PRIORITY configMAX_SYSCALL_INTERRUPT_PRIORITY
 
+
+/* 软件定时器相关定义 */
+#define configLIBRARY_KERNEL_INTERRUPT_PRIORITY 15
+#define configUSE_TIMERS 1                                          /* 使能软件定时器, 默认: 0。为1时需要定义下面3个 */
+#define configTIMER_TASK_PRIORITY (configMAX_PRIORITIES - 1)        /* 软件定时器任务的优先级 */
+#define configTIMER_QUEUE_LENGTH 5                                  /* 软件定时器命令队列的长度 */
+#define configTIMER_TASK_STACK_DEPTH (configMINIMAL_STACK_SIZE * 2) /* 软件定时器任务的栈空间大小 */
+
 #endif /* FREERTOS_CONFIG_H */
 

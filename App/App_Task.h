@@ -3,7 +3,13 @@
 
 #include "FreeRTOS.h"
 #include "task.h"
+#include "timers.h"
+#include "queue.h"
+#include "event_groups.h"
+#include "semphr.h"
+
 #include "gpio.h"
+#include "App_UI.h"
 #include "Inf_Key.h"
 #include "Inf_TWASRPRO.h"
 

@@ -1,8 +1,5 @@
 #include "App_Task.h"
 
-extern void Menu_Key_Set(void);
-extern int Select_flag;
-
 /* 起始任务配置 */
 #define START_STACK_DEPTH   128
 #define START_TASK_PRIORITY 5
@@ -23,7 +20,18 @@ TaskHandle_t ui_handle;
 void App_Task_UI(void* pvParameters);
 
 
+uint8_t timerid_Key = 0;
+TimerHandle_t timer_scan10ms;
+void timer_scan10ms_cbk(TimerHandle_t xTimer) {
+    uint8_t key_code = Inf_Key_Scan(0);
+    if (key_code == 1) Select_flag = 1;
+    else if (key_code == 2) Select_flag = 3;
+    else if (key_code == 3)Select_flag = 4;
+}
+
 void App_Task_Init(void) {
+    timer_scan10ms = xTimerCreate((char*)"ScanKey10ms", 10, pdTRUE, (void*)&timerid_Key, timer_scan10ms_cbk);
+    xTimerStart(timer_scan10ms, portMAX_DELAY);
     /* 创建起始任务 */
     xTaskCreate(
         (TaskFunction_t)App_Task_Start,
@@ -71,17 +79,7 @@ void App_Task_Communication(void* pvParameters) {
 void App_Task_UI(void* pvParameters) {
     TickType_t last_tick = xTaskGetTickCount();
     while (1) {
-        Menu_Key_Set();
-        uint8_t key_code = Inf_Key_Scan(0);
-        if (key_code == 1) {
-            Select_flag = 1;
-        }
-        else if (key_code == 2) {
-            Select_flag = 3;
-        }
-        else if (key_code == 3) {
-            Select_flag = 4;
-        }
+        App_Menu_KeySet();
         vTaskDelayUntil(&last_tick, 15);
     }
 }

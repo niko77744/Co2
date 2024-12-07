@@ -29,11 +29,11 @@ uint8_t Inf_Key_GetAction(uint8_t key_code) {
 
 uint8_t Inf_Key_Scan(uint8_t mode) {
     static uint8_t key_up = 1;//按键按松开标志
+    static uint8_t key_time = 0;
     if (mode)key_up = 1;  //支持连按		  
-    if (key_up && (KEY0 == 1 || KEY1 == 1 || KEY2 == 1))
-    {
-        HAL_Delay(10);//去抖动 
+    if (key_up && (KEY0 == 1 || KEY1 == 1 || KEY2 == 1) && (key_time++ >= 2)) {
         key_up = 0;
+        key_time = 0;
         if (KEY0 == 1)return KEY0_PRES;
         else if (KEY1 == 1)return KEY1_PRES;
         else if (KEY2 == 1)return KEY2_PRES;

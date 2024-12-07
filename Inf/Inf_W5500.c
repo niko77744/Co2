@@ -200,7 +200,7 @@ void Inf_W5500_SendTcpData(uint8_t data[], uint16_t dataLen) {
     }
     else {
         // 未连接到TCP服务器，无法发送数据
-        printf("没有连接到TCP服务端，无法发送数据...\r\n");
+        printf("没有连接到TCP服务端,无法发送数据...\r\n");
     }
 }
 

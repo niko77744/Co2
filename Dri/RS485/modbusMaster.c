@@ -1,4 +1,5 @@
 #include "modbusMaster.h"
+#include "stm32f1xx_hal_uart.h"
 
 
 const unsigned int crc_table[256] = {
