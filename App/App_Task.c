@@ -4,7 +4,6 @@
 #define START_STACK_DEPTH   128
 #define START_TASK_PRIORITY 5
 TaskHandle_t start_task_handle;
-// typedef void (* TaskFunction_t)( void * );
 void App_Task_Start(void* pvParameters);
 
 /* 通信任务配置 */
@@ -19,7 +18,7 @@ void App_Task_Communication(void* pvParameters);
 TaskHandle_t ui_handle;
 void App_Task_UI(void* pvParameters);
 
-
+/* 软件定时器扫描按键 */
 uint8_t timerid_Key = 0;
 TimerHandle_t timer_scan10ms;
 void timer_scan10ms_cbk(TimerHandle_t xTimer) {
@@ -30,6 +29,7 @@ void timer_scan10ms_cbk(TimerHandle_t xTimer) {
 }
 
 void App_Task_Init(void) {
+    /* 创建软件定时器 */
     timer_scan10ms = xTimerCreate((char*)"ScanKey10ms", 10, pdTRUE, (void*)&timerid_Key, timer_scan10ms_cbk);
     xTimerStart(timer_scan10ms, portMAX_DELAY);
     /* 创建起始任务 */
@@ -64,22 +64,27 @@ void App_Task_Start(void* pvParameters) {
         (UBaseType_t)UI_TASK_PRIORITY,
         (TaskHandle_t*)&ui_handle);
 
-    /* 删除App_Task_Start创建任务 */
+    /* 删除自己 */
     vTaskDelete(NULL);
 }
 
 void App_Task_Communication(void* pvParameters) {
     TickType_t last_tick = xTaskGetTickCount();
     while (1) {
-        TW_ASRPRO_SendData("123", 3);
-        vTaskDelayUntil(&last_tick, 5000); // 4是4个Tick的意思 1个tick默认1ms
+        // 通过RS485获取 温度、湿度、Co2浓度
+        App_RS485_GetDiffValue(GET_TEMP_CMD, IS_VOICE_TEMP);
+        App_RS485_GetDiffValue(GET_CO2_CMD, IS_VOICE_CO2);
+        App_RS485_GetDiffValue(GET_HUM_CMD, IS_VOICE_HUM);
+        // App_Tcp_RecvAndSend();
+        vTaskDelayUntil(&last_tick, 1000); // 多少个Tick 1个tick默认1ms
     }
 }
 
 void App_Task_UI(void* pvParameters) {
     TickType_t last_tick = xTaskGetTickCount();
     while (1) {
-        App_Menu_KeySet();
+        App_Menu_UI();
+        Inf_LED_Control((uint8_t)Flash, 2000);
         vTaskDelayUntil(&last_tick, 15);
     }
 }

@@ -2,6 +2,8 @@
 
 uint32_t key_value = 0;
 const uint8_t key_offset = 100;
+
+
 void Inf_Key_Init(void) {
     HAL_ADCEx_Calibration_Start(&hadc1);
     HAL_ADC_Start_DMA(&hadc1, &key_value, 1);

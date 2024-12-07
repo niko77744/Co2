@@ -1,3 +1,9 @@
+/*
+* @Description:
+* @Author: niko77744
+* @reference https://blog.csdn.net/m0_37697335/article/details/113267780
+*/
+
 #include "modbusMaster.h"
 #include "stm32f1xx_hal_uart.h"
 
@@ -37,6 +43,23 @@ const unsigned int crc_table[256] = {
     0x8201, 0x42c0, 0x4380, 0x8341, 0x4100, 0x81c1, 0x8081, 0x4040,
 };
 
+/**
+ * @brief 直接计算法计算crc
+ * 直接计算法省存储耗时间，而查表法使用空间区换时间，校验过程耗时少但占用存储空间大。
+ */
+uint16_t direct_calculate_crc(uint8_t* ptr, uint8_t len) {
+    uint16_t crc = 0xFFFF;  //crc16位寄存器初始值
+    while (len--) {
+        crc ^= *ptr++;
+        for (uint8_t i = 0; i < 8; ++i) {
+            if (crc & 0x01)
+                crc = (crc >> 1) ^ 0xA001; //多项式 POLY（0x8005)的高低位交换值，这是由于其模型的一些参数决定的
+            else
+                crc = (crc >> 1);
+        }
+    }
+    return crc;
+}
 
 
 /**
@@ -52,8 +75,7 @@ uint16_t calculate_crc(uint8_t* inData, uint8_t size) {
     uint16_t crc = 0xFFFF;
 
     // 遍历输入数据的每一个字节
-    while (size--)
-    {
+    while (size--) {
         // 根据当前CRC值和数据字节，通过查表方式更新CRC值
         // 这里使用了位移和异或操作来实现CRC算法
         crc = (crc >> 8) ^ crc_table[(crc ^ *inData++) & 0xff];
@@ -80,6 +102,7 @@ uint16_t data_len = 0;          /* usart2接收的数据长度 */
  * 注: 该函数中包含了一个关于天问51初始化的注释，这可能是一个待完善的地方，因为它与RS485初始化不直接相关。
  */
 void Inf_RS485_Init(void) {
+    MX_USART2_UART_Init();
     // 初始化RS485通信，配置UART2接收数据并启用空闲中断
     HAL_UARTEx_ReceiveToIdle_IT(&huart2, rxBuff, 1000);
     HAL_UARTEx_ReceiveToIdle_IT(&huart2, rxBuff, 1000);
@@ -153,7 +176,7 @@ void Inf_RS485_SendCmd(uint8_t* data, uint8_t size) {
     // 计算数据数组的CRC校验值，注意只计算前6个字节的数据
     uint16_t crc = calculate_crc(data, 6);
 
-    // 将CRC校验值的低字节和高字节分别添加到数据数组的第6和第7字节位置
+    // 根据ModBus协议 将CRC校验值的低字节和高字节分别添加到数据数组的第6和第7字节位置
     *(data + 6) = (crc & 0xff);
     *(data + 7) = (crc >> 8);
 
@@ -165,7 +188,7 @@ void Inf_RS485_SendCmd(uint8_t* data, uint8_t size) {
     // HAL_Delay(100);
 
     // 打印数据发送完成的消息
-    printf("向RS485数据发送完成...\r\n");
+    // printf("向RS485数据发送完成...\r\n");
 
     // 设置RS485接口为接收模式
     Inf_RS485_RecMode();
@@ -181,7 +204,7 @@ void Inf_RS485_SendCmd(uint8_t* data, uint8_t size) {
 int16_t Inf_RS485_GetValue(void) {
     // 1、校验CRC
     uint16_t current_crc = rxBuff[data_len - 2] | (rxBuff[data_len - 1] << 8);
-    uint16_t crc = calculate_crc(rxBuff, 5);
+    uint16_t crc = calculate_crc(rxBuff, 5);  //对除了CRC外的所有位进行校验 0~5
 
     int16_t temp = 0;
 

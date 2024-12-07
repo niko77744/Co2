@@ -14,6 +14,12 @@
 #define SUFFIX_T "°„C"
 #define SUFFIX_CO2 "ppm"
 
+
+
+void App_Com_Init(void);
 void App_RS485_GetDiffValue(uint8_t kind, int8_t voice);
+void App_ASRPRO_Send(uint8_t* data, uint8_t size);
+void App_Tcp_Send(uint8_t* data, uint16_t size);
+void App_Tcp_RecvAndSend(void);
 
 #endif /* __APP_COM_H__ */

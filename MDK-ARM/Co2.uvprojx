@@ -1172,6 +1172,11 @@
               <FileType>1</FileType>
               <FilePath>..\Inf\Inf_Key.c</FilePath>
             </File>
+            <File>
+              <FileName>Inf_LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Inf\Inf_LED.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

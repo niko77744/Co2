@@ -10,6 +10,7 @@
 #include "socket.h"
 #include "httpServer.h"
 #include "httpParser.h"
+#include "modbusMaster.h"
 
 void Inf_W5500_Init(void);
 uint8_t Inf_W5500_StartTcpClient(void);

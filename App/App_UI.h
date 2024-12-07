@@ -4,6 +4,8 @@
 #include "u8g2.h"
 #include "oled.h"
 #include "U8g2_text.h"
+#include "Inf_Key.h"
+#include "Inf_LED.h"
 
 /*  菜单选择操作代码段  */
 typedef struct {
@@ -48,7 +50,7 @@ void String_show(void);
 void Str_Coordinate_Add(void);
 void Str_Coordinate_Decrease(void);
 void Str_Operate(void);
-void App_Menu_KeySet(void);
+void App_Menu_UI(void);
 void App_UI_Init(void);
 
 

@@ -212,13 +212,12 @@ void Inf_W5500_SendTcpData(uint8_t data[], uint16_t dataLen) {
  * 并打印相关信息
  */
 void Inf_W5500_RecvAndSend(void) {
-
     // 等待接收数据 Sn_IR(RECV) 中断无论何时，只要接收到对方数据，此位置为1
     if ((getSn_IR(0) & Sn_IR_RECV) == 1) {
         // 在等待链接期间，socket状态 != SOCK_ESTABLISHED，则表示socket发生了意外
         // ，就关闭了socket 0，并退出函数
         if (getSn_SR(0) != SOCK_ESTABLISHED) {
-            printf("socket 0发送意外，将重新打开 socket 0...\r\n");
+            printf("socket 0发送意外,将重新打开 socket 0...\r\n");
             close(0);
             return;
         }
@@ -239,17 +238,14 @@ void Inf_W5500_RecvAndSend(void) {
         if ((rBuff[0] == 0xAA) && (rBuff[1] == 0xBB)) {
             if (rBuff[2] == 0x00) {
                 /* 调用获取湿度 */
-                // App_RS485_GetDiffValue(0, -1);
                 printf("以太网获取湿度...\r\n");
             }
             else if (rBuff[2] == 0x01) {
                 /* 调用获取温度 */
-                // App_RS485_GetDiffValue(1, -1);
                 printf("以太网获取温度...\r\n");
             }
             else if (rBuff[2] == 0x02) {
                 /* 调用二氧化碳浓度 */
-                // App_RS485_GetDiffValue(2, -1);
                 printf("以太网获取二氧化碳...\r\n");
             }
             else if (rBuff[2] == 0x03) {

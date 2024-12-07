@@ -27,16 +27,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "u8g2.h"
-#include "oled.h"
-#include "U8g2_text.h"
-#include "Inf_TWASRPRO.h"
-#include "Inf_W5500.h"
-#include "Inf_Key.h"
-#include "modbusMaster.h"
+#include "App_Com.h"
 #include "App_Task.h"
 #include "App_UI.h"
-#include "modbusMaster.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,8 +100,8 @@ int main(void)
     MX_I2C1_Init();
     /* USER CODE BEGIN 2 */
     printf("hello");
-    Inf_Key_Init();
 
+    App_Com_Init();
     App_UI_Init();
     App_Task_Init();
 

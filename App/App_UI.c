@@ -308,7 +308,7 @@ void Str_Operate(void) {
     //执行二级菜单操作函数后，在回到之前的索引值
     func_index = func_index_last;
 }
-void App_Menu_KeySet(void) {
+void App_Menu_UI(void) {
     func_index_last = func_index;
     if (Select_flag > 0) {
         switch (Select_flag) {
@@ -339,4 +339,6 @@ void App_Menu_KeySet(void) {
 
 void App_UI_Init(void) {
     u8g2Init(&u8g2);
+    Inf_Key_Init();
+    Inf_LED_Init();
 }
