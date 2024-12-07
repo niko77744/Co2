@@ -76,7 +76,7 @@ void App_Task_Communication(void* pvParameters) {
         App_RS485_GetDiffValue(GET_CO2_CMD, IS_VOICE_CO2);
         App_RS485_GetDiffValue(GET_HUM_CMD, IS_VOICE_HUM);
         // App_Tcp_RecvAndSend();
-        vTaskDelayUntil(&last_tick, 1000); // 多少个Tick 1个tick默认1ms
+        vTaskDelayUntil(&last_tick, 3000); // 多少个Tick 1个tick默认1ms
     }
 }
 

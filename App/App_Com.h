@@ -11,7 +11,7 @@
 #define PREFIX_CO2 "CO2"
 /* 要发送getTCPServer的数据单位 */
 #define SUFFIX_RH "%"
-#define SUFFIX_T "°C"
+#define SUFFIX_T "DC"
 #define SUFFIX_CO2 "ppm"
 
 
